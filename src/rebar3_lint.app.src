@@ -1,5 +1,5 @@
 {application, 'rebar3_lint',
- [{description, "A rebar plugin"},
+ [{description, "A rebar plugin for elvis"},
   {vsn, "0.1.0"},
   {registered, []},
   {applications,
@@ -8,8 +8,7 @@
    ]},
   {env,[]},
   {modules, []},
-
-  {contributors, []},
-  {licenses, []},
-  {links, []}
+  {maintainers, ["Heinz N. Gies <heinz@licenser.net>"]},
+  {licenses, ["MIT"]},
+  {links, [{github, "https://github.com/project-fifo/rebar3_lint"}]}
  ]}.
