@@ -36,8 +36,8 @@ do(State) ->
     case elvis:rock(Elvis) of
         ok ->
             {ok, State};
-        {error, _} ->
-            {fail, "Linting failed"}
+        {fail, _} ->
+            {error, "Linting failed"}
     end.
 
 -spec format_error(any()) ->  iolist().
