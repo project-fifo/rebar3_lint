@@ -37,7 +37,7 @@ do(State) ->
         ok ->
             {ok, State};
         {error, _} ->
-            {error, "Linting failed"}
+            {fail, "Linting failed"}
     end.
 
 -spec format_error(any()) ->  iolist().
