@@ -16,7 +16,7 @@ Add the plugin to your rebar config:
 ```erlang
 {profiles,
   [
-   {lint,  [{plugins, [{rebar3_lint, {git, "https://github.com/project-fifo/rebar3_lint.git", {tag, "0.1.0"}}}]}]}
+   {lint,  [{plugins, [{rebar3_lint, {git, "https://github.com/project-fifo/rebar3_lint.git", {tag, "0.1.1"}}}]}]}
   ]
 }.
 ```
