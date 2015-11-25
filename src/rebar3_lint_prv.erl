@@ -33,7 +33,7 @@ do(State) ->
                 _:_ ->
                     default()
             end,
-    case elvis:rock(Elvis) of
+    case elvis_core:rock(Elvis) of
         ok ->
             {ok, State};
         {fail, _} ->
