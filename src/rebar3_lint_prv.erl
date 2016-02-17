@@ -12,16 +12,18 @@
 %% ===================================================================
 -spec init(rebar_state:t()) -> {ok, rebar_state:t()}.
 init(State) ->
-    Provider = providers:create([
-                                 {name, ?PROVIDER},            % The 'user friendly' name of the task
-                                 {module, ?MODULE},            % The module implementation of the task
-                                 {bare, true},                 % The task can be run by the user, always true
-                                 {deps, ?DEPS},                % The list of dependencies
-                                 {example, "rebar3 lint"},     % How to use the plugin
-                                 {opts, []},                   % list of options understood by the plugin
-                                 {short_desc, "A rebar plugin for elvis"},
-                                 {desc, "A rebar linter plugin based on elvis"}
-                                ]),
+    Provider =
+        providers:create(
+          [
+           {name, ?PROVIDER},            % The 'user friendly' name of the task
+           {module, ?MODULE},            % The module implementation of the task
+           {bare, true},                 % The task can be run by the user, always true
+           {deps, ?DEPS},                % The list of dependencies
+           {example, "rebar3 lint"},     % How to use the plugin
+           {opts, []},                   % list of options understood by the plugin
+           {short_desc, "A rebar plugin for elvis"},
+           {desc, "A rebar linter plugin based on elvis"}
+          ]),
     {ok, rebar_state:add_provider(State, Provider)}.
 
 
@@ -31,6 +33,7 @@ do(State) ->
                 rebar_state:get(State, elvis)
             catch
                 _:_ ->
+                    io:format("Did not find elvis config in rebar.conf~n"),
                     default()
             end,
     case elvis_core:rock(Elvis) of
@@ -44,8 +47,17 @@ do(State) ->
 format_error(Reason) ->
     io_lib:format("~p", [Reason]).
 
-
 default() ->
+    case file:consult("elvis.config") of
+        {ok,[[{elvis,[{config, Config}]}]]} ->
+            io:format("falling back to elvis.conf~n"),
+            Config;
+        _ ->
+            io:format("using internal conf~n"),
+            default_config()
+    end.
+
+default_config() ->
     [#{dirs => ["apps/*/src", "src"],
        filter => "*.erl",
        rules => [{elvis_style, line_length,
