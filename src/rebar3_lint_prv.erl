@@ -27,12 +27,7 @@ init(State) ->
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
-    Elvis = try
-                rebar_state:get(State, elvis)
-            catch
-                _:_ ->
-                    default()
-            end,
+    Elvis = get_elvis_config(State),
     case elvis_core:rock(Elvis) of
         ok ->
             {ok, State};
@@ -44,8 +39,36 @@ do(State) ->
 format_error(Reason) ->
     io_lib:format("~p", [Reason]).
 
+-spec get_elvis_config(rebar_state:t()) -> elvis_config:config().
+get_elvis_config(State) ->
+    try_elvis_config_rebar(State).
 
+-spec try_elvis_config_rebar(rebar_state:t()) -> elvis_config:config().
+try_elvis_config_rebar(State) ->
+    rebar_api:debug("Looking for Elvis in rebar.config", []),
+    case rebar_state:get(State, elvis, no_config) of
+        no_config ->
+            try_elvis_config_file(State);
+        Config ->
+            Config
+    end.
+
+-spec try_elvis_config_file(rebar_state:t()) -> elvis_config:config().
+try_elvis_config_file(State) ->
+    Filename = filename:join(rebar_dir:root_dir(State), "elvis.config"),
+    rebar_api:debug("Looking for Elvis in ~s", [Filename]),
+    try
+        elvis_config:load_file(Filename)
+    catch
+        throw:enoent ->
+            default();
+        throw:Error ->
+            rebar_api:abort("Error reading Elvis config from ~s: ~p", [Filename, Error])
+    end.
+
+-spec default() -> elvis_config:config().
 default() ->
+    rebar_api:debug("Using default Elvis configuration", []),
     [#{dirs => ["apps/*/src", "src"],
        filter => "*.erl",
        rules => [{elvis_style, line_length,
