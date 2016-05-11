@@ -15,12 +15,12 @@ init(State) ->
     Provider =
         providers:create(
           [
-           {name, ?PROVIDER},            % The 'user friendly' name of the task
-           {module, ?MODULE},            % The module implementation of the task
-           {bare, true},                 % The task can be run by the user, always true
-           {deps, ?DEPS},                % The list of dependencies
-           {example, "rebar3 lint"},     % How to use the plugin
-           {opts, []},                   % list of options understood by the plugin
+           {name, ?PROVIDER},
+           {module, ?MODULE},
+           {bare, true},
+           {deps, ?DEPS},
+           {example, "rebar3 lint"},
+           {opts, []},
            {short_desc, "A rebar plugin for elvis"},
            {desc, "A rebar linter plugin based on elvis"}
           ]),
@@ -29,13 +29,7 @@ init(State) ->
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
-    Elvis = try
-                rebar_state:get(State, elvis)
-            catch
-                _:_ ->
-                    io:format("Did not find elvis config in rebar.conf~n"),
-                    default()
-            end,
+    Elvis = get_elvis_config(State),
     case elvis_core:rock(Elvis) of
         ok ->
             {ok, State};
@@ -47,17 +41,37 @@ do(State) ->
 format_error(Reason) ->
     io_lib:format("~p", [Reason]).
 
-default() ->
-    case file:consult("elvis.config") of
-        {ok,[[{elvis,[{config, Config}]}]]} ->
-            io:format("falling back to elvis.conf~n"),
-            Config;
-        _ ->
-            io:format("using internal conf~n"),
-            default_config()
+-spec get_elvis_config(rebar_state:t()) -> elvis_config:config().
+get_elvis_config(State) ->
+    try_elvis_config_rebar(State).
+
+-spec try_elvis_config_rebar(rebar_state:t()) -> elvis_config:config().
+try_elvis_config_rebar(State) ->
+    rebar_api:debug("Looking for Elvis in rebar.config", []),
+    case rebar_state:get(State, elvis, no_config) of
+        no_config ->
+            try_elvis_config_file(State);
+        Config ->
+            Config
     end.
 
+-spec try_elvis_config_file(rebar_state:t()) -> elvis_config:config().
+try_elvis_config_file(State) ->
+    Filename = filename:join(rebar_dir:root_dir(State), "elvis.config"),
+    rebar_api:debug("Looking for Elvis in ~s", [Filename]),
+    try
+        elvis_config:load_file(Filename)
+    catch
+        throw:enoent ->
+            default_config();
+        throw:Error ->
+            rebar_api:abort("Error reading Elvis config from ~s: ~p",
+                            [Filename, Error])
+    end.
+
+-spec default_config() -> elvis_config:config().
 default_config() ->
+    rebar_api:debug("Using default Elvis configuration", []),
     [#{dirs => ["apps/*/src", "src"],
        filter => "*.erl",
        rules => [{elvis_style, line_length,
