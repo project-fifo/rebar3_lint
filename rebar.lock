@@ -4,7 +4,7 @@
   1},
  {<<"elvis">>,
   {git,"https://github.com/inaka/elvis_core.git",
-       {ref,"592a5d811b9a6f77c8314b61271a8b491b4d79c9"}},
+       {ref,"88bc2c6a11eacdc84b256831a92b35ca0c733be4"}},
   0},
  {<<"goldrush">>,{pkg,<<"goldrush">>,<<"0.1.7">>},0},
  {<<"katana">>,
