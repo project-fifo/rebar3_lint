@@ -48,6 +48,10 @@ get_elvis_config(State) ->
 -spec try_elvis_config_rebar(rebar_state:t()) -> elvis_config:config().
 try_elvis_config_rebar(State) ->
     rebar_api:debug("Looking for Elvis in rebar.config", []),
+
+    application:set_env(elvis, output_format, 
+                        rebar_state:get(State, elvis_output_format, plain)),
+
     case rebar_state:get(State, elvis, no_config) of
         no_config ->
             try_elvis_config_file(State);
