@@ -48,6 +48,9 @@ get_elvis_config(State) ->
 -spec try_elvis_config_rebar(rebar_state:t()) -> elvis_config:config().
 try_elvis_config_rebar(State) ->
     rebar_api:debug("Looking for Elvis in rebar.config", []),
+
+    handle_output_format(State),
+    
     case rebar_state:get(State, elvis, no_config) of
         no_config ->
             try_elvis_config_file(State);
@@ -55,6 +58,19 @@ try_elvis_config_rebar(State) ->
             Config
     end.
 
+-spec handle_output_format(rebar_state:t()) -> ok.
+handle_output_format(State) ->
+    case rebar_state:get(State, elvis_output_format, no_config) of
+        no_config -> ok;
+        plain -> 
+            application:set_env(elvis, output_format, plain);
+        colors -> 
+            application:set_env(elvis, output_format, colors);
+        Other ->
+            rebar_api:abort("~p is not a valid elvis ouputformat. Must be either plain or colors", 
+                            [Other])
+    end.    
+    
 -spec try_elvis_config_file(rebar_state:t()) -> elvis_config:config().
 try_elvis_config_file(State) ->
     Filename = filename:join(rebar_dir:root_dir(State), "elvis.config"),
