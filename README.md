@@ -29,8 +29,29 @@ Then just call your plugin directly in an existing application:
     ===> Compiling rebar3_lint
     <Plugin Output>
 
+## Configuration ##
 
-## This is the default if no config is provided:
+the plugin supports the following configuration options in the rebar.config:
+
+Elvis check configuration (keyword config if placed in application config or
+elvis.config file)
+
+```erlang
+{elvis, [map()]}.
+```
+
+Specify output format. Default: color
+
+```erlang
+{elvis_output_format, plain | color}.
+```
+
+If no `elvis` configuation statement is given in the `rebar.config` file the
+plug-in will look for a `elvis.config` file in the project root folder. But
+only the config section will be applied (this is an elvis idiosyncrasy). The
+outpup format may be configured separately in the `rebar.config`
+
+### This is the default if no config is provided ###
 ```erlang
 {elvis,
  [#{dirs => ["apps/*/src", "src"],
