@@ -40,10 +40,10 @@ elvis.config file)
 {elvis, [map()]}.
 ```
 
-Specify output format. Default: color
+Specify output format. Default: colors
 
 ```erlang
-{elvis_output_format, plain | color}.
+{elvis_output_format, plain | colors}.
 ```
 
 If no `elvis` configuation statement is given in the `rebar.config` file the
