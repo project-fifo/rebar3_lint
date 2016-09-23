@@ -24,7 +24,7 @@ Add the plugin to your rebar config:
 Then just call your plugin directly in an existing application:
 
 
-    $ rebar3 lint
+    $ rebar3 as lint lint
     ===> Fetching rebar3_lint
     ===> Compiling rebar3_lint
     <Plugin Output>
