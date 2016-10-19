@@ -30,6 +30,7 @@ init(State) ->
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
     Elvis = get_elvis_config(State),
+    io:format("Config: ~p~n", [Elvis]),
     case elvis_core:rock(Elvis) of
         ok ->
             {ok, State};
@@ -48,9 +49,7 @@ get_elvis_config(State) ->
 -spec try_elvis_config_rebar(rebar_state:t()) -> elvis_config:config().
 try_elvis_config_rebar(State) ->
     rebar_api:debug("Looking for Elvis in rebar.config", []),
-
     handle_output_format(State),
-    
     case rebar_state:get(State, elvis, no_config) of
         no_config ->
             try_elvis_config_file(State);
