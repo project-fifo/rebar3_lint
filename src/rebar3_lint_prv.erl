@@ -29,9 +29,7 @@ init(State) ->
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
-    Elvis = get_elvis_config(State),
-    io:format("Config: ~p~n", [Elvis]),
-    case elvis_core:rock(Elvis) of
+    case elvis_core:rock() of
         ok ->
             {ok, State};
         {fail, _} ->
