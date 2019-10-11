@@ -60,15 +60,17 @@ try_elvis_config_rebar(State) ->
 handle_output_format(State) ->
     case rebar_state:get(State, elvis_output_format, no_config) of
         no_config -> ok;
-        plain -> 
+        plain ->
             application:set_env(elvis, output_format, plain);
-        colors -> 
+        colors ->
             application:set_env(elvis, output_format, colors);
+        parsable ->
+            application:set_env(elvis, output_format, parsable);
         Other ->
-            rebar_api:abort("~p is not a valid elvis ouputformat. Must be either plain or colors", 
+            rebar_api:abort("~p is not a valid elvis ouputformat. Must be either plain or colors",
                             [Other])
-    end.    
-    
+    end.
+
 -spec try_elvis_config_file(rebar_state:t()) -> elvis_config:config().
 try_elvis_config_file(State) ->
     Filename = filename:join(rebar_dir:root_dir(State), "elvis.config"),
