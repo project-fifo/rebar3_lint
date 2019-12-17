@@ -1,14 +1,10 @@
 {"1.1.0",
-[{<<"aleppo">>,{pkg,<<"inaka_aleppo">>,<<"1.1.1">>},2},
- {<<"elvis">>,{pkg,<<"elvis_core">>,<<"0.4.0">>},0},
- {<<"goldrush">>,{pkg,<<"goldrush">>,<<"0.1.9">>},0},
- {<<"katana_code">>,{pkg,<<"katana_code">>,<<"0.1.2">>},1},
+[{<<"elvis">>,{pkg,<<"elvis_core">>,<<"0.5.0">>},0},
+ {<<"katana_code">>,{pkg,<<"katana_code">>,<<"0.2.1">>},1},
  {<<"zipper">>,{pkg,<<"zipper">>,<<"1.0.1">>},1}]}.
 [
 {pkg_hash,[
- {<<"aleppo">>, <<"B0F7D05A118C5EBC3A735D68E92A7BD5837FE53455495EDE37CF0AA8BA4912E3">>},
- {<<"elvis">>, <<"663BDB90B62C1EAC65603AB496B206F349AA3CCCA1F3609B748E0F6D2032E892">>},
- {<<"goldrush">>, <<"F06E5D5F1277DA5C413E84D5A2924174182FB108DABB39D5EC548B27424CD106">>},
- {<<"katana_code">>, <<"347D42D5E89AC6C4BF8D02B64633AC1BFE14B7724B5910260D39EFEAFE737F01">>},
+ {<<"elvis">>, <<"7491F4E170B3D856276EC042BB250C6A5301B77D041B8CFA9D95E0B91E32BAAC">>},
+ {<<"katana_code">>, <<"B2195859DF57D8BEBF619A9FD3327CD7D01563A98417156D0F4C5FAB435F2630">>},
  {<<"zipper">>, <<"3CCB4F14B97C06B2749B93D8B6C204A1ECB6FAFC6050CACC3B93B9870C05952A">>}]}
 ].
