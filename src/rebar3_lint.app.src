@@ -1,6 +1,6 @@
 {application,rebar3_lint,
              [{description,"A rebar plugin for elvis"},
-              {vsn,"0.1.11"},
+              {vsn,git},
               {registered,[]},
               {applications,[kernel,stdlib]},
               {env,[]},
