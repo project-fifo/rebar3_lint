@@ -76,7 +76,7 @@ try_elvis_config_file(State) ->
     Filename = filename:join(rebar_dir:root_dir(State), "elvis.config"),
     rebar_api:debug("Looking for Elvis in ~s", [Filename]),
     try
-        elvis_config:load_file(Filename)
+        elvis_config:from_file(Filename)
     catch
         throw:enoent ->
             default_config();
