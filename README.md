@@ -58,7 +58,7 @@ outpup format may be configured separately in the `rebar.config`
        filter => "*.erl",
        rules => [{elvis_style, line_length,
                   #{ignore => [],
-                    limit => 80,
+                    limit => 100,
                     skip_comments => false}},
                  {elvis_style, no_tabs},
                  {elvis_style, no_trailing_whitespace},
