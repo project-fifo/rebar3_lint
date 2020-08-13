@@ -1,10 +1,10 @@
 {"1.1.0",
-[{<<"elvis">>,{pkg,<<"elvis_core">>,<<"0.6.0">>},0},
+[{<<"elvis">>,{pkg,<<"elvis_core">>,<<"0.6.1">>},0},
  {<<"katana_code">>,{pkg,<<"katana_code">>,<<"0.2.1">>},1},
  {<<"zipper">>,{pkg,<<"zipper">>,<<"1.0.1">>},1}]}.
 [
 {pkg_hash,[
- {<<"elvis">>, <<"178B7EE3486936911B95165613651251A35144FF1CBEC41967AB22FFC7872AF9">>},
+ {<<"elvis">>, <<"1E994074D2BDA7F3A334E92EEECBAE406B6BFF4C1732887B47C9248E0CC05870">>},
  {<<"katana_code">>, <<"B2195859DF57D8BEBF619A9FD3327CD7D01563A98417156D0F4C5FAB435F2630">>},
  {<<"zipper">>, <<"3CCB4F14B97C06B2749B93D8B6C204A1ECB6FAFC6050CACC3B93B9870C05952A">>}]}
 ].
