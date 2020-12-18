@@ -2,7 +2,7 @@
              [{description,"A rebar plugin for elvis"},
               {vsn,git},
               {registered,[]},
-              {applications,[kernel,stdlib]},
+              {applications,[kernel,stdlib,elvis_core]},
               {env,[]},
               {modules,[]},
               {maintainers,["Heinz N. Gies <heinz@licenser.net>"]},
