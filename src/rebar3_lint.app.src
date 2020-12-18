@@ -5,7 +5,6 @@
               {applications,[kernel,stdlib,elvis_core]},
               {env,[]},
               {modules,[]},
-              {maintainers,["Heinz N. Gies <heinz@licenser.net>"]},
               {licenses,["MIT"]},
               {links,[{"github",
                        "https://github.com/project-fifo/rebar3_lint"}]}]}.
