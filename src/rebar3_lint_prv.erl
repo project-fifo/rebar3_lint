@@ -89,20 +89,12 @@ try_elvis_config_file(State) ->
 -spec default_config() -> elvis_config:config().
 default_config() ->
     rebar_api:debug("Using default Elvis configuration", []),
-    [#{dirs => ["apps/*/src", "src"],
-       filter => "*.erl",
-       ruleset => erl_files
-      },
-     #{dirs => ["."],
-       filter => "Makefile",
-       ruleset => makefiles
-      },
-     #{dirs => ["."],
-       filter => "rebar.config",
-       ruleset => rebar_config
-      }
-     #{dirs => ["."],
-       filter => "elvis.config",
-       ruleset => elvis_config
-      }
-    ].
+    [#{ dirs => ["apps/*/src/**", "src/**"],
+        filter => "*.erl",
+        ruleset => erl_files },
+     #{ dirs => ["."],
+        filter => "rebar.config",
+        ruleset => rebar_config }
+     #{ dirs => ["."],
+        filter => "elvis.config",
+        ruleset => elvis_config }].
