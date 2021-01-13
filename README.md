@@ -1,6 +1,8 @@
 rebar3_lint
 =====
 
+![build](https://github.com/project-fifo/rebar3_lint/workflows/build/badge.svg)
+
 A rebar plugin
 
 Build
