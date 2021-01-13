@@ -19,7 +19,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
-      - run: rebar3 xref
+      - run: rebar3 as xref xref
       - run: rebar3 dialyzer
       - run: rebar3 escriptize && ./_build/default/bin/rebar3_lint
       - run: rebar3 ct
