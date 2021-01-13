@@ -1,12 +1,14 @@
-{"1.1.0",
-[{<<"elvis">>,{pkg,<<"elvis_core">>,<<"0.7.0">>},0},
- {<<"elvis_core">>,{pkg,<<"elvis_core">>,<<"1.0.0">>},0},
+{"1.2.0",
+[{<<"elvis_core">>,{pkg,<<"elvis_core">>,<<"1.0.0">>},0},
  {<<"katana_code">>,{pkg,<<"katana_code">>,<<"0.2.1">>},1},
  {<<"zipper">>,{pkg,<<"zipper">>,<<"1.0.1">>},1}]}.
 [
 {pkg_hash,[
- {<<"elvis">>, <<"796E0FA68BB4C4D90FF67ED05F4B47947C9B4E1AB73711BA4168ACC96433A08E">>},
  {<<"elvis_core">>, <<"01A18169EC80004D2444001E1157B117270B4CD38693A66C3AAB61A6459ADBFA">>},
  {<<"katana_code">>, <<"B2195859DF57D8BEBF619A9FD3327CD7D01563A98417156D0F4C5FAB435F2630">>},
- {<<"zipper">>, <<"3CCB4F14B97C06B2749B93D8B6C204A1ECB6FAFC6050CACC3B93B9870C05952A">>}]}
+ {<<"zipper">>, <<"3CCB4F14B97C06B2749B93D8B6C204A1ECB6FAFC6050CACC3B93B9870C05952A">>}]},
+{pkg_hash_ext,[
+ {<<"elvis_core">>, <<"DDA7A54CD4CE3D2BD93A4C9B421F59CA69C2301ECF3C171761BF098C6EB6AE0A">>},
+ {<<"katana_code">>, <<"8448AD3F56D9814F98A28BE650F7191BDD506575E345CC16D586660B10F6E992">>},
+ {<<"zipper">>, <<"6A1FD3E1F0CC1D1DF5642C9A0CE2178036411B0A5C9642851D1DA276BD737C2D">>}]}
 ].
