@@ -1,77 +1,63 @@
 rebar3_lint
-=====
+===
 
 ![build](https://github.com/project-fifo/rebar3_lint/workflows/build/badge.svg)
 
-A rebar plugin
-
-Build
------
-
-    $ rebar3 compile
+`rebar3_lint` is a `rebar3` plugin to ease the integration of
+[elvis](https://github.com/inaka/elvis_core) into your project.
 
 Use
 ---
 
-Add the plugin to your rebar config:
+Add the plugin to your `rebar.config`:
 
 ```erlang
-{profiles,
-  [
-   {lint,  [{plugins, [{rebar3_lint, {git, "https://github.com/project-fifo/rebar3_lint.git", {tag, "0.1.11"}}}]}]}
-  ]
-}.
+{project_plugins, [
+    rebar3_lint
+]}.
 ```
 
-Then just call your plugin directly in an existing application:
+Then call it:
 
-
-    $ rebar3 as lint lint
-    ===> Fetching rebar3_lint
-    ===> Compiling rebar3_lint
-    <Plugin Output>
-
-## Configuration ##
-
-the plugin supports the following configuration options in the rebar.config:
-
-Elvis check configuration (keyword config if placed in application config or
-elvis.config file)
-
-```erlang
-{elvis, [map()]}.
+```bash
+$ rebar3 lint
+===> Fetching rebar3_lint
+===> Compiling rebar3_lint
+<plugin output>
 ```
 
-Specify output format. Default: colors
+Configuration
+---
+
+The plugin supports configuration option `elvis_output_format` in `rebar.config`:
 
 ```erlang
-{elvis_output_format, plain | colors}.
+{elvis_output_format, plain | colors | parsable}. % default: colors
 ```
 
-If no `elvis` configuation statement is given in the `rebar.config` file the
-plug-in will look for a `elvis.config` file in the project root folder. But
-only the config section will be applied (this is an elvis idiosyncrasy). The
-output format may be configured separately in the `rebar.config`
+It also supports option `elvis` (in `rebar.config`) as you'd find `elvis`'s own
+`config` (inside option `elvis`).
 
-[### This is the default if no config is provided ###](src/rebar3_lint_prv.erl#L86-L105)
+If no `elvis` configuration is present in `rebar.config`, the
+plug-in will look for an `elvis.config` file in the project root folder
+(but only the `config` section will be applied - this is an `elvis` idiosyncrasy).
+
+The output format may then be configured separately in `rebar.config`, as previously
+explained.
+
+This is the default configuration if no input is provided:
+
 ```erlang
-{elvis,
-    [#{dirs => ["apps/*/src", "src"],
-       filter => "*.erl",
-       ruleset => erl_files
-      },
-     #{dirs => ["."],
-       filter => "Makefile",
-       ruleset => makefiles
-      },
-     #{dirs => ["."],
-       filter => "rebar.config",
-       ruleset => rebar_config
-      }
-     #{dirs => ["."],
-       filter => "elvis.config",
-       ruleset => elvis_config
-      }
-    ]
-}
+[#{ dirs => ["apps/*/src/**", "src/**"],
+    filter => "*.erl",
+    ruleset => erl_files },
+ #{ dirs => ["."],
+    filter => "Makefile",
+    ruleset => makefiles },
+ #{ dirs => ["."],
+    filter => "rebar.config",
+    ruleset => rebar_config }
+ #{ dirs => ["."],
+    filter => "elvis.config",
+    ruleset => elvis_config }]
 ```
