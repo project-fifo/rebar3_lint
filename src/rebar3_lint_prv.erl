@@ -42,11 +42,11 @@ do(State) ->
 format_error(Reason) ->
     io_lib:format("~p", [Reason]).
 
--spec get_elvis_config(rebar_state:t()) -> elvis_config:config().
+-spec get_elvis_config(rebar_state:t()) -> elvis_config:configs().
 get_elvis_config(State) ->
     try_elvis_config_rebar(State).
 
--spec try_elvis_config_rebar(rebar_state:t()) -> elvis_config:config().
+-spec try_elvis_config_rebar(rebar_state:t()) -> elvis_config:configs().
 try_elvis_config_rebar(State) ->
     rebar_api:debug("Looking for Elvis in rebar.config", []),
     handle_output_format(State),
@@ -72,7 +72,7 @@ handle_output_format(State) ->
                             [Other])
     end.
 
--spec try_elvis_config_file(rebar_state:t()) -> elvis_config:config().
+-spec try_elvis_config_file(rebar_state:t()) -> elvis_config:configs().
 try_elvis_config_file(State) ->
     Filename = filename:join(rebar_dir:root_dir(State), "elvis.config"),
     rebar_api:debug("Looking for Elvis in ~s", [Filename]),
@@ -86,7 +86,7 @@ try_elvis_config_file(State) ->
                             [Filename, Error])
     end.
 
--spec default_config() -> elvis_config:config().
+-spec default_config() -> elvis_config:configs().
 default_config() ->
     rebar_api:debug("Using default Elvis configuration", []),
     [#{ dirs => ["apps/*/src/**", "src/**"],
