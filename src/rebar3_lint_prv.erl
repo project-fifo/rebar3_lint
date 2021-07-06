@@ -32,11 +32,13 @@ init(State) ->
 do(State) ->
     Elvis = get_elvis_config(State),
     _ = rebar_log:log(info, "elvis analysis starting, this may take a while...", []),
-    case elvis_core:rock(Elvis) of
+    try elvis_core:rock(Elvis) of
         ok ->
             {ok, State};
         {fail, _} ->
             {error, "Linting failed"}
+    catch throw:Error ->
+        rebar_api:abort("elvis_core threw an exception: ~p", [Error])
     end.
 
 -spec format_error(any()) ->  iolist().
