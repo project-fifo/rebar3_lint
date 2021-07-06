@@ -31,6 +31,7 @@ init(State) ->
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
     Elvis = get_elvis_config(State),
+    _ = rebar_log:log(info, "elvis analysis starting, this may take a while...", []),
     case elvis_core:rock(Elvis) of
         ok ->
             {ok, State};
