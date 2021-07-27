@@ -2,6 +2,10 @@
 
 -export([all/0, test_app/1]).
 
+-if(?OTP_RELEASE >= 23).
+-behaviour(ct_suite).
+-endif.
+
 all() ->
     [test_app].
 
