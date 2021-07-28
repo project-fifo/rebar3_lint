@@ -83,8 +83,6 @@ try_elvis_config_file(State) ->
         [] -> default_config();
         Config -> Config
     catch
-        throw:enoent ->
-            default_config();
         throw:Error ->
             rebar_api:abort("Error reading Elvis config from ~s: ~p",
                             [Filename, Error])
