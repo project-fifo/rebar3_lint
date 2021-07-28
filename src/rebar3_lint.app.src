@@ -1,10 +1,10 @@
 {application,rebar3_lint,
-             [{description,"A rebar plugin for elvis"},
+             [{description,"Erlang linter - rebar3 plugin"},
               {vsn,git},
               {registered,[]},
               {applications,[kernel,stdlib,elvis_core]},
               {env,[]},
               {modules,[]},
               {licenses,["MIT"]},
-              {links,[{"github",
+              {links,[{"GitHub",
                        "https://github.com/project-fifo/rebar3_lint"}]}]}.
