@@ -56,7 +56,7 @@ This is the default configuration if no input is provided:
     ruleset => makefiles },
  #{ dirs => ["."],
     filter => "rebar.config",
-    ruleset => rebar_config }
+    ruleset => rebar_config },
  #{ dirs => ["."],
     filter => "elvis.config",
     ruleset => elvis_config }]
