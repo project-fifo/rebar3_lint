@@ -96,7 +96,7 @@ default_config() ->
         ruleset => erl_files },
      #{ dirs => ["."],
         filter => "rebar.config",
-        ruleset => rebar_config }
+        ruleset => rebar_config },
      #{ dirs => ["."],
         filter => "elvis.config",
         ruleset => elvis_config }].
