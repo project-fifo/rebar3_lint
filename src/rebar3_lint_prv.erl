@@ -1,6 +1,7 @@
 -module('rebar3_lint_prv').
 
 -export([init/1, do/1, format_error/1]).
+-export([default_config/0]).
 
 -ignore_xref([do/1]).
 -ignore_xref([format_error/1]).
@@ -80,7 +81,9 @@ try_elvis_config_file(State) ->
     Filename = filename:join(rebar_dir:root_dir(State), "elvis.config"),
     rebar_api:debug("Looking for Elvis in ~s", [Filename]),
     try elvis_config:from_file(Filename) of
-        [] -> default_config();
+        [] ->
+            rebar_api:debug("Using default Elvis configuration", []),
+            default_config();
         Config -> Config
     catch
         throw:Error ->
@@ -90,7 +93,6 @@ try_elvis_config_file(State) ->
 
 -spec default_config() -> elvis_config:configs().
 default_config() ->
-    rebar_api:debug("Using default Elvis configuration", []),
     [#{ dirs => ["apps/*/src/**", "src/**"],
         filter => "*.erl",
         ruleset => erl_files },

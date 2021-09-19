@@ -1,10 +1,18 @@
 -module(test_app_SUITE).
 
--export([all/0, test_app/1]).
+-export([init_per_suite/1, end_per_suite/1, all/0, test_app/1]).
 
 -if(?OTP_RELEASE >= 23).
 -behaviour(ct_suite).
 -endif.
+
+init_per_suite(Config) ->
+    RebarState = rebar_state:new(),
+    rebar_state:set(RebarState, elvis, rebar3_lint_prv:default_config()),
+    Config.
+
+end_per_suite(Config) ->
+    Config.
 
 all() ->
     [test_app].
