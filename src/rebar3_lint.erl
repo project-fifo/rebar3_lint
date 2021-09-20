@@ -18,4 +18,4 @@ init(State) ->
 -spec main([]) -> ok | {fail, [elvis_result:file()]}.
 main([]) ->
     ok = application:load(elvis_core),
-    elvis_core:rock(elvis_config:from_rebar("rebar.config")).
+    elvis_core:rock(rebar3_lint_prv:default_config()).
