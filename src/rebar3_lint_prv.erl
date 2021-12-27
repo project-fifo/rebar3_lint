@@ -72,7 +72,7 @@ handle_output_format(State) ->
         parsable ->
             application:set_env(elvis_core, output_format, parsable);
         Other ->
-            rebar_api:abort("~p is not a valid elvis ouput format. Must be either plain, colors or"
+            rebar_api:abort("~p is not a valid elvis output format. Must be either plain, colors or"
                             "parsable", [Other])
     end.
 
