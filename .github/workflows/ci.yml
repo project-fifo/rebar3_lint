@@ -20,7 +20,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp_vsn}}
-          rebar3-version: '3.14'
+          rebar3-version: '3.18'
       - env:
           ERL_FLAGS: "-enable-feature all"
         run: rebar3 test
