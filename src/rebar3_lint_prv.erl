@@ -36,8 +36,10 @@ do(State) ->
     try elvis_core:rock(Elvis) of
         ok ->
             {ok, State};
-        {fail, _} ->
-            {error, "Linting failed"}
+        {fail, [{throw, Error}|_]} ->
+            rebar_api:abort("elvis_core threw an exception: ~p", [Error]);
+        {fail, Err} ->
+            {error, "Linting failed", Err}
     catch throw:Error ->
         rebar_api:abort("elvis_core threw an exception: ~p", [Error])
     end.
