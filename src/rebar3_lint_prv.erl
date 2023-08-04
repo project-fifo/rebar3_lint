@@ -3,9 +3,6 @@
 -export([init/1, do/1, format_error/1]).
 -export([default_config/0]).
 
--ignore_xref([do/1]).
--ignore_xref([format_error/1]).
-
 -define(PROVIDER, lint).
 -define(DEPS, [compile, app_discovery]).
 

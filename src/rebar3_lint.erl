@@ -1,13 +1,8 @@
 -module(rebar3_lint).
 
 -export([init/1]).
-
--ignore_xref([init/1]).
-
 %% for eating our own dogfood
 -export([main/1]).
-
--ignore_xref([main/1]).
 
 -spec init(rebar_state:t()) -> {ok, rebar_state:t()}.
 init(State) ->
