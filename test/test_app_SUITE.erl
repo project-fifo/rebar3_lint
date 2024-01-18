@@ -19,4 +19,6 @@ test_app(_Config) ->
                         [#{dirs => ["src"],
                            filter => "*.erl",
                            rules => [{elvis_style, max_function_length, #{max_length => 1}}]}]),
-    {error, "Linting failed"} = rebar3_lint_prv:do(BadState).
+    {error, {Message = "Linting failed with ~p", Reason}} = rebar3_lint_prv:do(BadState),
+    % Check that this doesn't throw
+    io:format("~p", [rebar3_lint_prv:format_error({Message, Reason})]).

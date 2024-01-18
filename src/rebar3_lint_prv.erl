@@ -22,23 +22,25 @@ init(State) ->
                           {desc, "A rebar linter plugin based on elvis"}]),
     {ok, rebar_state:add_provider(State, Provider)}.
 
--spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
+-spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, {string(), any()}}.
 do(State) ->
     Elvis = get_elvis_config(State),
     _ = rebar_log:log(info, "elvis analysis starting, this may take a while...", []),
     try elvis_core:rock(Elvis) of
         ok ->
             {ok, State};
-        {fail, _} ->
-            {error, "Linting failed"}
+        {fail, [{throw, Error} | _]} ->
+            rebar_api:abort("elvis_core threw an exception: ~p", [Error]);
+        {fail, Reason} ->
+            {error, {"Linting failed with ~p", Reason}}
     catch
         Error ->
             rebar_api:abort("elvis_core threw an exception: ~p", [Error])
     end.
 
--spec format_error(any()) -> iolist().
-format_error(Reason) ->
-    io_lib:format("~p", [Reason]).
+-spec format_error({string(), any()}) -> iolist().
+format_error({Message, Reason}) ->
+    io_lib:format(Message, [Reason]).
 
 -spec get_elvis_config(rebar_state:t()) -> elvis_config:configs().
 get_elvis_config(State) ->
