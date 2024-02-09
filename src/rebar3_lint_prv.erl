@@ -1,6 +1,6 @@
 -module(rebar3_lint_prv).
 
--export([init/1, do/1, format_error/1]).
+-export([init/1, do/1]).
 -export([default_config/0]).
 
 -define(PROVIDER, lint).
@@ -31,16 +31,12 @@ do(State) ->
             {ok, State};
         {fail, [{throw, Error} | _]} ->
             rebar_api:abort("elvis_core threw an exception: ~p", [Error]);
-        {fail, Reason} ->
-            {error, {"Linting failed with ~p", Reason}}
+        {fail, _} ->
+            {error, "Linting failed"}
     catch
         Error ->
             rebar_api:abort("elvis_core threw an exception: ~p", [Error])
     end.
-
--spec format_error({string(), any()}) -> iolist().
-format_error({Message, Reason}) ->
-    io_lib:format(Message, [Reason]).
 
 -spec get_elvis_config(rebar_state:t()) -> elvis_config:configs().
 get_elvis_config(State) ->
