@@ -42,7 +42,7 @@ jobs:
                 -rebar3-${{steps.setup-beam.outputs.rebar3-version}}\
                 -hash-${{hashFiles('rebar.lock')}}"
       - name: Format check
-        run: rebar3 format --verify
+        run: rebar3 fmt --check
       - env:
           ERL_FLAGS: "-enable-feature all"
         run: rebar3 test
