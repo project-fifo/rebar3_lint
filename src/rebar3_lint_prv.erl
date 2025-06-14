@@ -12,14 +12,16 @@
 -spec init(rebar_state:t()) -> {ok, rebar_state:t()}.
 init(State) ->
     Provider =
-        providers:create([{name, ?PROVIDER},
-                          {module, ?MODULE},
-                          {bare, true},
-                          {deps, ?DEPS},
-                          {example, "rebar3 lint"},
-                          {opts, []},
-                          {short_desc, "A rebar plugin for elvis"},
-                          {desc, "A rebar linter plugin based on elvis"}]),
+        providers:create([
+            {name, ?PROVIDER},
+            {module, ?MODULE},
+            {bare, true},
+            {deps, ?DEPS},
+            {example, "rebar3 lint"},
+            {opts, []},
+            {short_desc, "A rebar plugin for elvis"},
+            {desc, "A rebar linter plugin based on elvis"}
+        ]),
     {ok, rebar_state:add_provider(State, Provider)}.
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, {string(), any()}}.
@@ -65,16 +67,19 @@ handle_output_format(State) ->
         parsable ->
             application:set_env(elvis_core, output_format, parsable);
         Other ->
-            rebar_api:abort("~p is not a valid elvis output format. Must be either plain, colors or"
-                            "parsable",
-                            [Other])
+            rebar_api:abort(
+                "~p is not a valid elvis output format. Must be either plain, colors or"
+                "parsable",
+                [Other]
+            )
     end.
 
 -spec try_elvis_config_file(rebar_state:t()) -> elvis_config:configs().
 try_elvis_config_file(State) ->
     Filename =
         filename:join(
-            rebar_dir:root_dir(State), "elvis.config"),
+            rebar_dir:root_dir(State), "elvis.config"
+        ),
     rebar_api:debug("Looking for Elvis in ~s", [Filename]),
     try elvis_config:from_file(Filename) of
         [] ->
@@ -89,12 +94,20 @@ try_elvis_config_file(State) ->
 
 -spec default_config() -> elvis_config:configs().
 default_config() ->
-    [#{dirs => ["apps/*/src/**", "src/**"],
-       filter => "*.erl",
-       ruleset => erl_files},
-     #{dirs => ["."],
-       filter => "rebar.config",
-       ruleset => rebar_config},
-     #{dirs => ["."],
-       filter => "elvis.config",
-       ruleset => elvis_config}].
+    [
+        #{
+            dirs => ["apps/*/src/**", "src/**"],
+            filter => "*.erl",
+            ruleset => erl_files
+        },
+        #{
+            dirs => ["."],
+            filter => "rebar.config",
+            ruleset => rebar_config
+        },
+        #{
+            dirs => ["."],
+            filter => "elvis.config",
+            ruleset => elvis_config
+        }
+    ].

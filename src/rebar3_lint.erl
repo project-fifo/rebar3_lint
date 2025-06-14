@@ -14,4 +14,5 @@ init(State) ->
 main([]) ->
     ok = application:load(elvis_core),
     elvis_core:rock(
-        rebar3_lint_prv:default_config()).
+        rebar3_lint_prv:default_config()
+    ).
