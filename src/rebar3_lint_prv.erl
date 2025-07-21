@@ -28,7 +28,7 @@ do(State) ->
                 % When we implement warnings_as_errors, revisit this
                 % Maybe think about making this the default for `elvis_config:config()`
                 % with an output notice
-                elvis_utils:abort(Message0);
+                {error, Message0};
             [] ->
                 elvis_utils:warn("Elvis: elvis.config not defined; using default", []),
                 {ok, elvis_config:default()};
@@ -37,13 +37,13 @@ do(State) ->
         end,
     case ErrorOrOkElvisConfig of
         {error, Message} ->
-            elvis_utils:abort("invalid configuration: ~s", [Message]);
+            {error, io_lib:format("Elvis: invalid configuration: ~s", [Message])};
         {ok, ElvisConfig} ->
             _ = elvis_utils:info("analysis starting, this may take a while...", []),
             case elvis_core:rock(ElvisConfig) of
                 ok ->
                     {ok, State};
                 {fail, _} ->
-                    elvis_utils:abort("linting failed", [])
+                    {error, "Elvis: linting failed"}
             end
     end.
