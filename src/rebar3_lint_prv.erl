@@ -37,13 +37,13 @@ do(State) ->
         end,
     case ErrorOrOkElvisConfig of
         {error, Message} ->
-            {error, io_lib:format("invalid configuration: ~s", [Message])};
+            {error, io_lib:format("Elvis: invalid configuration: ~s", [Message])};
         {ok, ElvisConfig} ->
             _ = elvis_utils:info("analysis starting, this may take a while...", []),
             case elvis_core:rock(ElvisConfig) of
                 ok ->
                     {ok, State};
                 {fail, _} ->
-                    elvis_utils:abort("linting failed", [])
+                    {error, "Elvis: linting failed"}
             end
     end.
