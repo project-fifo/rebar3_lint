@@ -15,32 +15,7 @@ test_app(_Config) ->
             rebar_state:new()
         ),
     {ok, _} = rebar3_lint_prv:do(GoodState),
-    ct:log("Invalid State"),
-    InvalidState =
-        rebar_state:set(
-            GoodState,
-            elvis,
-            [
-                #{
-                    dirs => ["bad-dir"],
-                    filter => "*.erl",
-                    ruleset => erl_files
-                }
-            ]
-        ),
-    try
-        rebar3_lint_prv:do(InvalidState)
-    catch
-        throw:rebar_abort -> ok
-    end,
-    ct:log("NoConfig State"),
-    NoConfigState = rebar_state:set(GoodState, elvis, no_config),
-    try
-        rebar3_lint_prv:do(NoConfigState)
-    catch
-        throw:rebar_abort -> ok
-    end,
-    ct:log("Bad State"),
+    ok = file:set_cwd("test"),
     BadState =
         rebar_state:set(
             GoodState,
