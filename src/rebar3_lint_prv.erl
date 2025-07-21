@@ -30,7 +30,7 @@ do(State) ->
                 % with an output notice
                 elvis_utils:abort(Message0);
             [] ->
-                elvis_utils:warn("Elvis: elvis.config not defined; using default~n", []),
+                elvis_utils:warn("Elvis: elvis.config not defined; using default", []),
                 {ok, elvis_config:default()};
             ElvisConfig0 ->
                 {ok, ElvisConfig0}
