@@ -1,6 +1,7 @@
-.rebar3
-erl_crash.dump
-rebar3.crashdump
-_*
+.rebar3/
+/erl_crash.dump
+/rebar3.crashdump
+_build/
+_checkouts/
 doc/
-logs
+test/logs/
