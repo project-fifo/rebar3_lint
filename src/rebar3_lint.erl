@@ -10,9 +10,11 @@ init(State) ->
     {ok, State1}.
 
 %% @private
--spec main([]) -> ok | {fail, [elvis_result:file()]}.
 main([]) ->
     ok = application:load(elvis_core),
-    elvis_core:rock(
-        rebar3_lint_prv:default_config()
-    ).
+    case elvis_config:config() of
+        {fail, [{throw, {invalid_config, Message}}]} ->
+            elvis_utils:abort(Message, []);
+        DefaultConfig ->
+            ok = elvis_core:rock(DefaultConfig)
+    end.
