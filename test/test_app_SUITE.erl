@@ -14,6 +14,7 @@ test_app(_Config) ->
             rebar_state:new()
         ),
     {ok, _} = rebar3_lint_prv:do(GoodState),
+    ok = file:set_cwd("test"),
     BadState =
         rebar_state:set(
             GoodState,
