@@ -12,4 +12,9 @@ init(State) ->
 %% @private
 main([]) ->
     ok = application:load(elvis_core),
-    elvis_core:rock(elvis_config:default()).
+    case elvis_config:config() of
+        {fail, [{throw, {invalid_config, Message}}]} ->
+            elvis_utils:abort(Message, []);
+        DefaultConfig ->
+            ok = elvis_core:rock(DefaultConfig)
+    end.
