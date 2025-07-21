@@ -10,7 +10,6 @@ init(State) ->
     {ok, State1}.
 
 %% @private
--spec main([]) -> ok | {fail, [elvis_result:file()]}.
 main([]) ->
     ok = application:load(elvis_core),
     elvis_core:rock(
