@@ -1,7 +1,6 @@
 -module(rebar3_lint_prv).
 
 -export([init/1, do/1]).
--export([default_config/0]).
 
 -define(PROVIDER, lint).
 -define(DEPS, [compile, app_discovery]).
@@ -40,11 +39,11 @@ do(State) ->
             rebar_api:abort("elvis_core threw an exception: ~p", [Error])
     end.
 
--spec get_elvis_config(rebar_state:t()) -> elvis_config:configs().
+-spec get_elvis_config(rebar_state:t()) -> [elvis_config:t()].
 get_elvis_config(State) ->
     try_elvis_config_rebar(State).
 
--spec try_elvis_config_rebar(rebar_state:t()) -> elvis_config:configs().
+-spec try_elvis_config_rebar(rebar_state:t()) -> [elvis_config:t()].
 try_elvis_config_rebar(State) ->
     rebar_api:debug("Looking for Elvis in rebar.config", []),
     handle_output_format(State),
@@ -61,11 +60,11 @@ handle_output_format(State) ->
         no_config ->
             ok;
         plain ->
-            application:set_env(elvis_core, output_format, plain);
+            elvis_config:set_output_format(plain);
         colors ->
-            application:set_env(elvis_core, output_format, colors);
+            elvis_config:set_output_format(colors);
         parsable ->
-            application:set_env(elvis_core, output_format, parsable);
+            elvis_config:set_output_format(parsable);
         Other ->
             rebar_api:abort(
                 "~p is not a valid elvis output format. Must be either plain, colors or"
@@ -74,7 +73,7 @@ handle_output_format(State) ->
             )
     end.
 
--spec try_elvis_config_file(rebar_state:t()) -> elvis_config:configs().
+-spec try_elvis_config_file(rebar_state:t()) -> [elvis_config:t()].
 try_elvis_config_file(State) ->
     Filename =
         filename:join(
@@ -82,32 +81,16 @@ try_elvis_config_file(State) ->
         ),
     rebar_api:debug("Looking for Elvis in ~s", [Filename]),
     try elvis_config:from_file(Filename) of
-        [] ->
-            rebar_api:debug("Using default Elvis configuration", []),
-            default_config();
+        {fail, Errors} ->
+            rebar_api:debug(
+                "Failed to read config from ~ts:\n\t~p\nUsing default Elvis configuration", [
+                    Filename, Errors
+                ]
+            ),
+            elvis_config:default();
         Config ->
             Config
     catch
         Error ->
             rebar_api:abort("Error reading Elvis config from ~s: ~p", [Filename, Error])
     end.
-
--spec default_config() -> elvis_config:configs().
-default_config() ->
-    [
-        #{
-            dirs => ["apps/*/src/**", "src/**"],
-            filter => "*.erl",
-            ruleset => erl_files
-        },
-        #{
-            dirs => ["."],
-            filter => "rebar.config",
-            ruleset => rebar_config
-        },
-        #{
-            dirs => ["."],
-            filter => "elvis.config",
-            ruleset => elvis_config
-        }
-    ].
