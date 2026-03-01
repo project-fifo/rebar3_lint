@@ -15,7 +15,6 @@ test_app(_Config) ->
             rebar_state:new()
         ),
     {ok, _} = rebar3_lint_prv:do(GoodState),
-    ok = file:set_cwd("test"),
     ct:log("Invalid State"),
     InvalidState =
         rebar_state:set(
@@ -41,6 +40,8 @@ test_app(_Config) ->
     catch
         throw:rebar_abort -> ok
     end,
+    % Force us to use test/elvis.config
+    ok = file:set_cwd("test"),
     ct:log("Bad State"),
     BadState =
         rebar_state:set(
