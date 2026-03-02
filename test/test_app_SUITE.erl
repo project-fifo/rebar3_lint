@@ -40,6 +40,8 @@ test_app(_Config) ->
     catch
         throw:rebar_abort -> ok
     end,
+    % Force us to use test/elvis.config
+    ok = file:set_cwd("test"),
     ct:log("Bad State"),
     BadState =
         rebar_state:set(
@@ -53,5 +55,4 @@ test_app(_Config) ->
                 }
             ]
         ),
-    {error, "Linting failed"} = rebar3_lint_prv:do(BadState),
-    {comment, ""}.
+    {error, "Elvis: linting failed"} = rebar3_lint_prv:do(BadState).
