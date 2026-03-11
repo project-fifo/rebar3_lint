@@ -13,8 +13,8 @@ init(State) ->
 main([]) ->
     ok = application:load(elvis_core),
     case elvis_config:config() of
-        {fail, [{throw, {invalid_config, Message}}]} ->
+        {error, Message} ->
             elvis_utils:abort(Message, []);
-        DefaultConfig ->
-            ok = elvis_core:rock(DefaultConfig)
+        Config ->
+            ok = elvis_core:rock(Config)
     end.

@@ -24,10 +24,7 @@ init(State) ->
 do(State) ->
     ErrorOrOkElvisConfig =
         case elvis_config:config() of
-            {fail, [{throw, {invalid_config, Message0}}]} ->
-                % When we implement warnings_as_errors, revisit this
-                % Maybe think about making this the default for `elvis_config:config()`
-                % with an output notice
+            {error, Message0} ->
                 {error, Message0};
             [] ->
                 elvis_utils:warn("Elvis: elvis.config not defined; using default", []),
@@ -43,7 +40,9 @@ do(State) ->
             case elvis_core:rock(ElvisConfig) of
                 ok ->
                     {ok, State};
-                {fail, _} ->
+                {errors, _} ->
                     {error, "Elvis: linting failed"}
+                {warnings, _} ->
+                    {ok, State}
             end
     end.
