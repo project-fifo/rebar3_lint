@@ -31,3 +31,10 @@ Configuration
 
 Read [`elvis_core`'s Configuration](https://github.com/inaka/elvis_core?#configuration)
 README section for more information.
+
+Versioning
+---
+
+This `rebar3` plugin is part of the Elvis ecosystem. For details on versioning and guidance on
+migrating between major versions when breaking changes occur, refer to the
+[`elvis_core` `README`](https://github.com/inaka/elvis_core/blob/main/README.md#versioning).
