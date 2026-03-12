@@ -22,9 +22,11 @@ main([]) ->
             case elvis_core:rock(ElvisConfig) of
                 ok ->
                     ok;
-                {errors, _} ->
-                    io:format(standard_error, "Elvis: linting failed\n", []),
+                {errors, [#{} | _]} ->
                     erlang:halt(1);
+                {errors, ErrorString} ->
+                    io:format(standard_error, "Elvis: linting failed: ~ts\n", [ErrorString]),
+                    erlang:halt(2);
                 {warnings, _} ->
                     ok
             end

@@ -43,8 +43,10 @@ do(State) ->
             case elvis_core:rock(ElvisConfig) of
                 ok ->
                     {ok, State};
-                {errors, _} ->
+                {errors, [#{} | _]} ->
                     {error, "Elvis: linting failed"};
+                {errors, ErrorString} ->
+                    {error, "Elvis: linting failed: " ++ ErrorString};
                 {warnings, _} ->
                     {ok, State}
             end
