@@ -1,5 +1,8 @@
 -module(rebar3_lint_prv).
 
+%% The rebar3 plugin architecture has a poorly defined "behaviour"
+-elvis([{elvis_style, consistent_ok_error_spec, disable}]).
+
 -export([init/1, do/1]).
 
 %% ===================================================================
@@ -27,7 +30,7 @@ do(State) ->
             {error, Message0} ->
                 {error, Message0};
             [] ->
-                elvis_utils:warn("Elvis: elvis.config not defined; using default", []),
+                _ = elvis_utils:warn("Elvis: elvis.config not defined; using default", []),
                 {ok, elvis_config:default()};
             ElvisConfig0 ->
                 {ok, ElvisConfig0}
@@ -41,7 +44,7 @@ do(State) ->
                 ok ->
                     {ok, State};
                 {errors, _} ->
-                    {error, "Elvis: linting failed"}
+                    {error, "Elvis: linting failed"};
                 {warnings, _} ->
                     {ok, State}
             end

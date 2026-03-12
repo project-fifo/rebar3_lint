@@ -1,5 +1,8 @@
 -module(rebar3_lint).
 
+%% The rebar3 plugin architecture has a poorly defined "behaviour"
+-elvis([{elvis_style, consistent_ok_error_spec, disable}]).
+
 -export([init/1]).
 %% for eating our own dogfood
 -export([main/1]).
@@ -15,6 +18,14 @@ main([]) ->
     case elvis_config:config() of
         {error, Message} ->
             elvis_utils:abort(Message, []);
-        Config ->
-            ok = elvis_core:rock(Config)
+        ElvisConfig ->
+            case elvis_core:rock(ElvisConfig) of
+                ok ->
+                    ok;
+                {errors, _} ->
+                    io:format(standard_error, "Elvis: linting failed\n", []),
+                    erlang:halt(1);
+                {warnings, _} ->
+                    ok
+            end
     end.
