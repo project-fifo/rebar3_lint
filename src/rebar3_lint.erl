@@ -15,19 +15,4 @@ init(State) ->
 %% @private
 main([]) ->
     ok = application:load(elvis_core),
-    case elvis_config:config() of
-        {error, Message} ->
-            elvis_utils:abort(Message, []);
-        ElvisConfig ->
-            case elvis_core:rock(ElvisConfig) of
-                ok ->
-                    ok;
-                {errors, [#{} | _]} ->
-                    erlang:halt(1);
-                {errors, ErrorString} ->
-                    io:format(standard_error, "Elvis: linting failed: ~ts\n", [ErrorString]),
-                    erlang:halt(2);
-                {warnings, _} ->
-                    ok
-            end
-    end.
+    ok = elvis_core:rock(elvis_config:config()).
