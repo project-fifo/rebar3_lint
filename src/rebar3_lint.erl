@@ -15,4 +15,7 @@ init(State) ->
 %% @private
 main([]) ->
     ok = application:load(elvis_core),
-    ok = elvis_core:rock(elvis_config:config()).
+    case elvis_core:rock() of
+        ok -> true;
+        _ -> elvis_utils:erlang_halt(1)
+    end.
