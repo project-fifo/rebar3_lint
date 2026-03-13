@@ -25,29 +25,14 @@ init(State) ->
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
-    ErrorOrOkElvisConfig =
-        case elvis_config:config() of
-            {error, Message0} ->
-                {error, Message0};
-            [] ->
-                _ = elvis_utils:warn("Elvis: elvis.config not defined; using default", []),
-                {ok, elvis_config:default()};
-            ElvisConfig0 ->
-                {ok, ElvisConfig0}
-        end,
-    case ErrorOrOkElvisConfig of
-        {error, Message} ->
-            {error, io_lib:format("Elvis: invalid configuration: ~s", [Message])};
-        {ok, ElvisConfig} ->
-            _ = elvis_utils:info("analysis starting, this may take a while...", []),
-            case elvis_core:rock(ElvisConfig) of
-                ok ->
-                    {ok, State};
-                {errors, [#{} | _]} ->
-                    {error, "Elvis: linting failed"};
-                {errors, ErrorString} ->
-                    {error, "Elvis: linting failed: " ++ ErrorString};
-                {warnings, _} ->
-                    {ok, State}
-            end
+    _ = application:load(rebar3_lint),
+    _ = application:load(elvis_core),
+    _ = elvis_utils:info("analysis starting, this may take a while...", []),
+    case elvis_core:rock() of
+        ok ->
+            {ok, State};
+        {errors, _} ->
+            {error, "Elvis: linting failed"};
+        {warnings, _} ->
+            {ok, State}
     end.
