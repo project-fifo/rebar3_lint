@@ -55,4 +55,4 @@ test_app(_Config) ->
                 }
             ]
         ),
-    {error, "Elvis: linting failed" ++ _} = rebar3_lint_prv:do(BadState).
+    {error, "Elvis: linting failed"} = rebar3_lint_prv:do(BadState).
