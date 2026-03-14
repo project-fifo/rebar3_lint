@@ -1,5 +1,8 @@
 -module(rebar3_lint_prv).
 
+%% The rebar3 plugin architecture has a poorly defined "behaviour"
+-elvis([{elvis_style, consistent_ok_error_spec, disable}]).
+
 -export([init/1, do/1]).
 
 %% ===================================================================
@@ -22,28 +25,14 @@ init(State) ->
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
-    ErrorOrOkElvisConfig =
-        case elvis_config:config() of
-            {fail, [{throw, {invalid_config, Message0}}]} ->
-                % When we implement warnings_as_errors, revisit this
-                % Maybe think about making this the default for `elvis_config:config()`
-                % with an output notice
-                {error, Message0};
-            [] ->
-                elvis_utils:warn("Elvis: elvis.config not defined; using default", []),
-                {ok, elvis_config:default()};
-            ElvisConfig0 ->
-                {ok, ElvisConfig0}
-        end,
-    case ErrorOrOkElvisConfig of
-        {error, Message} ->
-            {error, io_lib:format("Elvis: invalid configuration: ~s", [Message])};
-        {ok, ElvisConfig} ->
-            _ = elvis_utils:info("analysis starting, this may take a while...", []),
-            case elvis_core:rock(ElvisConfig) of
-                ok ->
-                    {ok, State};
-                {fail, _} ->
-                    {error, "Elvis: linting failed"}
-            end
+    _ = application:load(rebar3_lint),
+    _ = application:load(elvis_core),
+    _ = elvis_utils:info("analysis starting, this may take a while...", []),
+    case elvis_core:rock() of
+        ok ->
+            {ok, State};
+        {errors, _} ->
+            {error, "Elvis: linting failed"};
+        {warnings, _} ->
+            {ok, State}
     end.

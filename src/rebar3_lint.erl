@@ -1,5 +1,8 @@
 -module(rebar3_lint).
 
+%% The rebar3 plugin architecture has a poorly defined "behaviour"
+-elvis([{elvis_style, consistent_ok_error_spec, disable}]).
+
 -export([init/1]).
 %% for eating our own dogfood
 -export([main/1]).
@@ -12,9 +15,7 @@ init(State) ->
 %% @private
 main([]) ->
     ok = application:load(elvis_core),
-    case elvis_config:config() of
-        {fail, [{throw, {invalid_config, Message}}]} ->
-            elvis_utils:abort(Message, []);
-        DefaultConfig ->
-            ok = elvis_core:rock(DefaultConfig)
+    case elvis_core:rock() of
+        ok -> true;
+        _ -> elvis_utils:erlang_halt(1)
     end.
